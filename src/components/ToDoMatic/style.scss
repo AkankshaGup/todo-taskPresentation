@@ -1,0 +1,64 @@
+.component-wrapper {
+  min-height: 100vh;
+}
+
+.app-container {
+  background: #91daed;
+  min-height: 80vh;
+
+  .app-component {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 0 16px;
+    text-align: center;
+
+    .input-container {
+      padding: 16px;
+    }
+  }
+}
+
+.no-radius {
+  border-radius: 0;
+}
+
+.filled-btn {
+  background: #00aced;
+  padding: 8px 16px;
+  width: 30%;
+  color: white;
+  cursor: pointer;
+}
+
+.simple-btn {
+  background: white;
+  padding: 8px 16px;
+  width: 30%;
+  color: #00aced;
+  border: 1px solid #00aced;
+  cursor: pointer;
+}
+
+.remainingTask {
+  text-align: left;
+  padding: 32px;
+  font-weight: bold;
+  font-size: 24px;
+  color: #002f6c;
+}
+
+
+.flex-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.input {
+  background: white;
+  border-radius: 2px;
+  border: #dde5ed;
+  padding: 8px 16px;
+  width: 70%;
+}
