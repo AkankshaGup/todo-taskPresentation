@@ -12,7 +12,11 @@ class TaskList extends React.Component {
   }
 
   componentDidMount() {
-    this.getTaskList();
+    const newList = this.getTaskList();
+    console.log('mount', newList)
+    this.setState({
+      taskList: newList,
+    });
   }
   componentDidUpdate(prevProps) {
     if (prevProps.taskList !== this.props.taskList) {
@@ -21,7 +25,11 @@ class TaskList extends React.Component {
       });
     }
     if (prevProps.activeTab !== this.props.activeTab) {
-      this.getTaskList();
+      const newList = this.getTaskList();
+      console.log('list update', newList);
+      this.setState({
+        taskList: newList,
+      });
     }
   }
 
@@ -29,27 +37,39 @@ class TaskList extends React.Component {
     const { taskList = [], activeTab } = this.props;
     let newList = taskList;
     if (activeTab === "Active Task") {
-      newList = newList.filter((d) => d.isCompleted === false);
-      console.log('list', newList)
+      return newList = newList.filter((d) => d.isCompleted === false);
     } else if (activeTab === "Completed Task") {
-      newList = newList.filter((d) => d.isCompleted === true);
+      return newList = newList.filter((d) => d.isCompleted === true);
+    } else {
+      return newList;
     }
-    this.setState({
-      taskList: newList,
-    });
   };
 
   handleItemClick = (item, key, value, index) => {
-    console.log('sadda')
     const { taskList: newTaskList } = this.state;
     newTaskList.find((d, i) => {
       if (i === index) {
-        item[key] = value;
+        d[key] = value;
       }
     });
     this.setState(
       {
         taskList: [...newTaskList],
+      },
+      () => this.props.editTask(this.state.taskList)
+    );
+  };
+
+  checkBox = (item, value) => {
+    const { taskList: newTaskList } = this.state;
+    const list = newTaskList.length && newTaskList.filter((d) => {
+      if (d.taskName === item.taskName) {
+        d.isCompleted = value;
+      }
+    });
+    this.setState(
+      {
+        taskList: list,
       },
       () => this.props.editTask(this.state.taskList)
     );
@@ -72,10 +92,12 @@ class TaskList extends React.Component {
       <div className="task-component">
         <div className="remainingTask">{taskList.length} Task Remaining</div>
         {taskList.map((item, index) => {
-          console.log('item', item)
           return (
             <div key={index} className="list-item">
               <div className="flex-box">
+                <div className="custom-checkox">
+                  <div></div>
+                </div>
                 <input
                   type="checkbox"
                   className="checkbox"
@@ -87,13 +109,13 @@ class TaskList extends React.Component {
                       index
                     )
                   }
-                  defaultChecked={item.isCompleted ? true : false}
+                  checked={!!item.isCompleted}
                 />
                 <input
                   type="text"
                   className={`input ${item.isCompleted ? "completed" : ""}`}
                   placeholder="Add Your Task Here"
-                  value={item.taskName || value}
+                  value={item.taskName || value || ''}
                   disabled={!item.isEditable}
                   onChange={(e) =>
                     this.handleItemClick(
@@ -110,10 +132,10 @@ class TaskList extends React.Component {
                 <div
                   className="filled-btn"
                   onClick={() =>
-                    this.handleItemClick(item, "isEditable", true, index)
+                    this.handleItemClick(item, "isEditable", item.isEditable ? false :true, index)
                   }
                 >
-                  Edit
+                  {item.isEditable ? 'Save' : 'Edit'}
                 </div>
                 <div
                   className="filled-btn"

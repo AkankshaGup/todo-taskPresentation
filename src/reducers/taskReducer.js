@@ -4,7 +4,7 @@ const initialState = {
   activeTab: "All Task",
   taskList: [{
     taskName: 'Eat',
-    isCompleted: true,
+    isCompleted: false,
     isEditable: false
   },
   {
