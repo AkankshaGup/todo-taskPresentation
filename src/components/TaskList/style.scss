@@ -1,3 +1,11 @@
+.remainingTask {
+  text-align: center;
+  padding: 32px;
+  font-weight: bold;
+  font-size: 24px;
+  color: #002f6c;
+}
+
 .task-component{
   max-width: 50%;
   margin: 0 auto;
@@ -20,6 +28,7 @@
       background-color: #0d73f6;
       color: white !important;
     }
+  
     input[type="checkbox"]:not(:checked),
     input[type="checkbox"]:checked {
       content: "";

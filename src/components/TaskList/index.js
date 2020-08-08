@@ -13,7 +13,6 @@ class TaskList extends React.Component {
 
   componentDidMount() {
     const newList = this.getTaskList();
-    console.log('mount', newList)
     this.setState({
       taskList: newList,
     });
@@ -26,7 +25,6 @@ class TaskList extends React.Component {
     }
     if (prevProps.activeTab !== this.props.activeTab) {
       const newList = this.getTaskList();
-      console.log('list update', newList);
       this.setState({
         taskList: newList,
       });
@@ -60,21 +58,6 @@ class TaskList extends React.Component {
     );
   };
 
-  checkBox = (item, value) => {
-    const { taskList: newTaskList } = this.state;
-    const list = newTaskList.length && newTaskList.filter((d) => {
-      if (d.taskName === item.taskName) {
-        d.isCompleted = value;
-      }
-    });
-    this.setState(
-      {
-        taskList: list,
-      },
-      () => this.props.editTask(this.state.taskList)
-    );
-  };
-
   deleteItem = (index) => {
     const { taskList: newTaskList } = this.state;
     newTaskList.splice(index, 1);
@@ -88,16 +71,17 @@ class TaskList extends React.Component {
 
   render() {
     const { value, taskList } = this.state;
+    const activetab=this.props.activeTab;
     return (
       <div className="task-component">
-        <div className="remainingTask">{taskList.length} Task Remaining</div>
+       {(taskList.length>0) ? <div className="remainingTask">{taskList.length} {(activetab=="All Task")&&"Total Tasks"}
+        {(activetab=="Active Task")&&"Remaining Tasks"}{(activetab=="Completed Task")&&"Completed Task"}</div>
+        : <div className="remainingTask">Have something in Mind. Make a task and complete it</div>}
         {taskList.map((item, index) => {
           return (
             <div key={index} className="list-item">
               <div className="flex-box">
-                <div className="custom-checkox">
-                  <div></div>
-                </div>
+             
                 <input
                   type="checkbox"
                   className="checkbox"
